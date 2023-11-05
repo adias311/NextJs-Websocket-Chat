@@ -1,10 +1,12 @@
+import { ModeToggle } from "@/components/ui/dark-mode";
 import { UserButton } from "@clerk/nextjs";
  
 export default function Home() {
   return (
     <div>
-      <UserButton afterSignOutUrl="/"/>
       <h1 className="">/Home</h1>
+      <UserButton afterSignOutUrl="/"/>
+      <ModeToggle/>
     </div>
   )
 }
