@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id       String @id @default(uuid())
+  user_id  String @unique
+  name     String @db.VarChar(100)
+  imageUrl String @db.Text
+  email    String @db.Text
+
+  servers  Server[]
+  members  Member[]
+  Channels Channel[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Server {
+  id         String @id @default(uuid())
+  name       String @db.VarChar(250)
+  imageUrl   String @db.Text
+  inviteCode String @db.Text
+
+  profile_id String
+  profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+
+  members Member[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Channels  Channel[]
+
+  @@index([profile_id])
+}
+
+enum MemberRole {
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+model Member {
+  id   String     @id @default(uuid())
+  role MemberRole @default(GUEST)
+
+  profile_id String
+  profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+
+  server_id String
+  server    Server @relation(fields: [server_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profile_id, server_id])
+}
+
+enum ChannelType {
+  TEXT
+  AUDIO
+  VIDEO
+}
+
+model Channel {
+  id   String      @id @default(uuid())
+  name String
+  type ChannelType @default(TEXT)
+
+  profile_id String
+  profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+
+  server_id String
+  server    Server @relation(fields: [server_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profile_id, server_id])
+}
