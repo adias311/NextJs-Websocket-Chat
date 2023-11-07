@@ -2,7 +2,6 @@ import { db } from '@/lib/db';
 import { initialProfile } from '@/services/initial-profile';
 import { redirect } from 'next/navigation';
 import InitialModal from '@/components/modal/initial-modal';
-import { UserButton } from '@clerk/nextjs';
 
 
 async function SetupPage() {

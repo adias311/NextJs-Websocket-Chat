@@ -1,7 +1,8 @@
 "use client"
 
-
 import React from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import * as zod from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -18,6 +19,7 @@ const formSchema = zod.object({
 function InitialModal() {
 
   const [mounted, setMounted] = React.useState(false);
+  const Router = useRouter();
 
   React.useEffect(() => {
     setMounted(true);
@@ -33,8 +35,16 @@ function InitialModal() {
 
   const isLoading = form.formState.isSubmitting;
 
-  function onSubmit(values: zod.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit(values: zod.infer<typeof formSchema>) {
+    try {
+      await axios.post('/api/servers', values);
+
+      form.reset();
+      Router.refresh();
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -53,26 +63,26 @@ function InitialModal() {
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
               <div className='space-y-8 px-6'>
                 <div className='flex items-center justify-center text-center'>
-                  <FormField control={form.control} name='imageUrl' render={({ field }) => 
-                 <FormItem>
-                  <FormControl>
-                    <FileUpload
-                    endpoint="serverImage"
-                    value={field.value}
-                    onchange={field.onChange}
-                    />
-                  </FormControl>
-                 </FormItem>
-                 } />
+                  <FormField control={form.control} name='imageUrl' render={({ field }) =>
+                    <FormItem>
+                      <FormControl>
+                        <FileUpload
+                          endpoint="serverImage"
+                          value={field.value}
+                          onchange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  } />
                 </div>
                 <FormField
                   control={form.control}
                   name='name'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='uppercase text-xs font-bold text-zinc-500 dark:text-secondary/90'>Server Name</FormLabel>
+                      <FormLabel className='uppercase text-xs font-bold text-zinc-500 dark:text-secondary/90' htmlFor='name'>Server Name</FormLabel>
                       <FormControl>
-                        <Input className='bg-zinc-300/50 border-0 focus-visible:ring-0  text-black focus-visible:ring-offset-0' disabled={isLoading} placeholder="Server Name" {...field} />
+                        <Input id='name' className='bg-zinc-300/50 border-0 focus-visible:ring-0  text-black focus-visible:ring-offset-0' disabled={isLoading} placeholder="Server Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
