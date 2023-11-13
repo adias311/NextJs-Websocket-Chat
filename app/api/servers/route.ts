@@ -13,8 +13,6 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    console.log("masuk");
-
     const server = await db.server.create({
       data: {
         profile_id: profile.id,
