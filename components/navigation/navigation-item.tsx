@@ -16,7 +16,6 @@ type NavigationItemProps = {
 function NavigationItem({ id, imageUrl, name }: NavigationItemProps) {
 
   const params = useParams();
-  console.log(params?.serverId);
   const router = useRouter();
 
   const changeServer = () => {

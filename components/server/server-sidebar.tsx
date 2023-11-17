@@ -6,7 +6,7 @@ import { ChannelType, MemberRole } from '@prisma/client';
 import ServerHeader from '@/components/server/server-header';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import ServerSearch from '@/components/server/server-search';
-import { ShieldEllipsis, ShieldCheck, ShieldAlert, Hash, Mic, Video } from 'lucide-react';
+import { ShieldClose, ShieldCheck, ShieldAlert, Hash, Mic, Video } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import ServerSection from './server-section';
 import ServerChannel from './server-channel';
@@ -23,7 +23,7 @@ const iconMap = {
 }
 
 const roleIconMap = {
-  [MemberRole.GUEST]: <ShieldEllipsis className='w-4 h-4 text-amber-600 mr-2' />,
+  [MemberRole.GUEST]: <ShieldClose className='w-4 h-4 text-amber-600 mr-2' />,
   [MemberRole.MODERATOR]: <ShieldAlert className='w-4 h-4 text-rose-500 mr-2' />,
   [MemberRole.ADMIN]: <ShieldCheck className='w-4 h-4 text-indigo-500 mr-2' />
 }
@@ -44,25 +44,21 @@ async function ServerSidebar({ serverId }: ServerSidebarProps) {
     },
     include: {
       Channels: {
-        select: {
-          id: true,
-          name: true,
-          type: true
-        },
         orderBy: {
-          createdAt: 'asc'
-        }
+          createdAt: "asc",
+        },
       },
       members: {
         include: {
-          profile: true
+          profile: true,
         },
         orderBy: {
-          role: 'asc'
+          role: "asc",
         }
       }
     }
   });
+
 
   const TextChannels = server?.Channels.filter((channel) => channel.type === ChannelType.TEXT) || [];
   const AudioChannels = server?.Channels.filter((channel) => channel.type === ChannelType.AUDIO) || [];

@@ -1,7 +1,7 @@
 "use client"
 import { cn } from '@/lib/utils';
 import { Member, MemberRole, Profile, Server } from '@prisma/client';
-import { ShieldEllipsis, ShieldAlert, ShieldCheck } from 'lucide-react';
+import { ShieldIcon, ShieldAlert, ShieldCheck } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
 import { UserAvatar } from '@/components/user-avatar';
@@ -12,7 +12,7 @@ interface ServerMemberProps {
 }
 
 const roleIconMap = {
-  [MemberRole.GUEST]: <ShieldEllipsis className='w-4 h-4 text-amber-600 mr-2' />,
+  [MemberRole.GUEST]: <ShieldIcon className='w-4 h-4 text-amber-600 mr-2' />,
   [MemberRole.MODERATOR]: <ShieldAlert className='w-4 h-4 text-rose-500 mr-2' />,
   [MemberRole.ADMIN]: <ShieldCheck className='w-4 h-4 text-indigo-500 mr-2' />
 }

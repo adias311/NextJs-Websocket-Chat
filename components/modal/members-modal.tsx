@@ -6,7 +6,7 @@ import { useModal } from '@/hooks/use-modal-store';
 import { ServerWithMembersWithProfiles } from '@/type';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserAvatar } from '@/components/user-avatar';
-import { Check, Gavel, Loader2, MoreVertical, ShieldAlert, ShieldCheck, ShieldEllipsis, ShieldQuestion } from 'lucide-react';
+import { Check, Gavel, Loader2, MoreVertical, ShieldAlert, ShieldCheck, ShieldClose, ShieldIcon, ShieldQuestion } from 'lucide-react';
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuTrigger, DropdownMenuSubTrigger } from '@/components/ui/dropdown-menu';
 import { MemberRole } from '@prisma/client';
 import qs from 'query-string';
@@ -64,7 +64,7 @@ function MembersModal() {
   }
 
   const roleIconMap = {
-    "GUEST": <ShieldEllipsis className='w-4 h-4 text-amber-600' />,
+    "GUEST": <ShieldIcon className='w-4 h-4 text-amber-600' />,
     "ADMIN": <ShieldCheck className='w-4 h-4 text-indigo-500' />,
     "MODERATOR": <ShieldAlert className='w-4 h-4 text-rose-500' />
 
@@ -112,7 +112,7 @@ function MembersModal() {
                           <DropdownMenuPortal>
                             <DropdownMenuSubContent>
                               <DropdownMenuItem onClick={() => onRoleChange(member.id, "GUEST")}>
-                                <ShieldEllipsis className='w-4 h-4 mr-2' />
+                                <ShieldIcon className='w-4 h-4 mr-2' />
                                 Guest
                                 {member.role === "GUEST" && (
                                   <Check className='h-4 w-4 ml-auto' />
